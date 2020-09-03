@@ -8,10 +8,12 @@ import SentimentSatisfiedOutlinedIcon from "@material-ui/icons/SentimentSatisfie
 import ScheduleOutlinedIcon from "@material-ui/icons/ScheduleOutlined";
 import { projectStorage, projectFirestore, timeStamp } from "./firebase";
 import { v4 as uuidv4 } from "uuid";
+import { useStateValue } from "./StateProvider";
 
 function TweetBox() {
   const [tweetMessage, setTweetMessage] = useState("");
   const [tweetImage, setTweetImage] = useState("");
+  const [{ user }, dispatch] = useStateValue();
   // const [tweetImageUrl, setTweetImageUrl] = useState("");
 
   const sendTweet = () => {
@@ -35,12 +37,11 @@ function TweetBox() {
           const url = await storageRef.getDownloadURL();
           const createdAt = timeStamp();
           collectionRef.add({
-            displayName: "Binay Kumar Sahoo",
-            username: "binaykumarsahoo",
+            displayName: user.displayName,
+            username: user.displayName.replace(/\s/g, "").toLowerCase(),
             verified: true,
             text: tweetMessage,
-            avatar:
-              "https://pbs.twimg.com/profile_images/1290592429406470145/gQzCF-y7_400x400.jpg",
+            avatar: user.photoURL,
             attachmentURL: url,
             createdAt: createdAt,
             attachmentType: type,
@@ -51,12 +52,11 @@ function TweetBox() {
     } else if (tweetMessage) {
       const createdAt = timeStamp();
       collectionRef.add({
-        displayName: "Binay Kumar Sahoo",
-        username: "binaykumarsahoo",
+        displayName: user.displayName,
+        username: user.displayName.replace(/\s/g, "").toLowerCase(),
         verified: true,
         text: tweetMessage,
-        avatar:
-          "https://pbs.twimg.com/profile_images/1290592429406470145/gQzCF-y7_400x400.jpg",
+        avatar: user.photoURL,
         attachmentURL: "",
         createdAt: createdAt,
         attachmentType: "",
@@ -80,7 +80,7 @@ function TweetBox() {
   return (
     <div className="tweetBox">
       <div className="tweetBox__avatar">
-        <Avatar src="https://pbs.twimg.com/profile_images/1290592429406470145/gQzCF-y7_400x400.jpg" />
+        <Avatar src={user.photoURL} />
       </div>
       {/* <input
           type="text"

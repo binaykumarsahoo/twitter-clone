@@ -3,18 +3,29 @@ import Sidebar from "./Sidebar";
 import Feed from "./Feed";
 import "./App.css";
 import Widgets from "./Widgets";
+import Login from "./Login";
+import { useStateValue } from "./StateProvider";
+import { auth } from "./firebase";
 
 function App() {
+  const [{ user }, dispatch] = useStateValue();
+
   return (
     <div className="app">
-      {/* Feed */}
-      <Sidebar />
+      {!user ? (
+        <Login />
+      ) : (
+        <>
+          {/* Sidebar */}
+          <Sidebar />
 
-      {/* Feed */}
-      <Feed />
+          {/* Feed */}
+          <Feed />
 
-      {/* Widgets */}
-      <Widgets />
+          {/* Widgets */}
+          <Widgets />
+        </>
+      )}
     </div>
   );
 }

@@ -1,0 +1,25 @@
+.login {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.login > button {
+  width: 300px;
+  background-color: var(--twitter-color);
+  color: #eff2f5;
+  font-weight: 800;
+  border: 1px solid var(--twitter-color);
+}
+
+.login > button:hover {
+  background-color: white;
+  color: var(--twitter-color);
+}
+
+.login > img {
+  height: 150px;
+  object-fit: contain;
+}
